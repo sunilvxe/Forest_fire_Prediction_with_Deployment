@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Prediction</title>
+    <style>
+        /* General body styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://via.placeholder.com/1920x1080.png?text=Fire+Background') no-repeat center center fixed; /* Replace this with your fire background image URL */
+            background-size: cover;
+            color: white;
+        }
+        /* Center content */
+        .container {
+            text-align: center;
+            margin: 5% auto;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+        }
+        /* Form inputs */
+        form label {
+            display: block;
+            margin: 15px 0;
+            text-align: left;
+        }
+        form input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        /* Button styling */
+        button {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #e64a19;
+        }
+        /* Title styling */
+        h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        /* Result styling */
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fire Prediction Input</h1>
+        <form action="/predict" method="POST" onsubmit="submitForm(event)">
+            <label>Temperature: <input type="number" name="temperature" required></label>
+            <label>Humidity: <input type="number" name="humidity" required></label>
+            <label>TVOC: <input type="number" name="TVOC" required></label>
+            <label>eCO2: <input type="number" name="eCO2" required></label>
+            <label>Raw H2: <input type="number" name="raw_h2" required></label>
+            <label>Raw Ethanol: <input type="number" name="raw_ethanol" required></label>
+            <label>Pressure: <input type="number" name="pressure" required></label>
+            <label>PM1: <input type="number" name="pm1" required></label>
+            <label>PM2.5: <input type="number" name="pm2.5" required></label>
+            <button type="submit">Predict</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        async function submitForm(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = result.fire_alarm ? 'Fire Alarm Triggered!' : 'No Fire Detected.';
+        }
+    </script>
+</body>
+</html>

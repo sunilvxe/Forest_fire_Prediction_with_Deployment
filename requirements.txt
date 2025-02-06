@@ -1,0 +1,6 @@
+Flask
+lightgbm
+matplotlib
+seaborn
+scikit-learn
+joblib
