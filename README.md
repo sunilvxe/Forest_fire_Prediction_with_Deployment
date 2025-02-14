@@ -41,7 +41,3 @@
 7. **Access the Application**  
    Once the application is running, copy and open the link displayed in the terminal (e.g., `http://127.0.0.1:5000/`) in your browser.
 ```
-
----
-
-Let me know if you'd like any further refinements!
